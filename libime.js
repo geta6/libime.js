@@ -41,31 +41,36 @@ LibIME = (function() {
   };
 
   function LibIME(expr) {
-    var _this = this;
+    var eventer,
+      _this = this;
 
     if (typeof expr !== 'string') {
       _element = expr;
     } else {
       if (typeof jQuery !== "undefined" && jQuery !== null) {
-        _element = ($(expr)).get(0);
+        _element = $(expr);
       } else if (document.querySelector != null) {
         _element = document.querySelector(expr);
       } else {
         throw new Error('expr isnt object');
       }
     }
-    _element.addEventListener('keydown', function(event) {
+    eventer = 'addEventListener';
+    if (typeof jQuery !== "undefined" && jQuery !== null) {
+      eventer = 'on';
+    }
+    _element[eventer]('keydown', function(event) {
       _directinput = false;
       _num_press = 0;
       _num_up = 0;
       return _this.onkeydown(event);
     });
-    _element.addEventListener('keypress', function(event) {
+    _element[eventer]('keypress', function(event) {
       _directinput = true;
       _num_press += 1;
       return _this.onkeypress(event);
     });
-    _element.addEventListener('keyup', function(event) {
+    _element[eventer]('keyup', function(event) {
       _num_up += 1;
       if ((_except_keys.indexOf(event.keyCode)) === -1) {
         if (!_directinput && event.keyCode === 13) {

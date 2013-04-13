@@ -22,7 +22,7 @@ class LibIME
       _element = expr
     else
       if jQuery?
-        _element = ($ expr).get(0)
+        _element = ($ expr)
       else if document.querySelector?
         _element = document.querySelector expr
       else
