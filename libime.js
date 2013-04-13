@@ -59,16 +59,19 @@ LibIME = (function() {
     if (typeof jQuery !== "undefined" && jQuery !== null) {
       eventer = 'on';
     }
+    if (_element[eventer] == null) {
+      throw new Error('invalid object or expr passed, must be jQuery/Raw DOM object');
+    }
     _element[eventer]('keydown', function(event) {
       _directinput = false;
       _num_press = 0;
       _num_up = 0;
-      return _this.onkeydown(event);
+      return _this.onkeydown(arguments);
     });
     _element[eventer]('keypress', function(event) {
       _directinput = true;
       _num_press += 1;
-      return _this.onkeypress(event);
+      return _this.onkeypress(arguments);
     });
     _element[eventer]('keyup', function(event) {
       _num_up += 1;
@@ -83,7 +86,7 @@ LibIME = (function() {
       } else {
         _this.status = 2;
       }
-      return _this.onkeyup(event);
+      return _this.onkeyup(arguments);
     });
   }
 

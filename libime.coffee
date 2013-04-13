@@ -31,16 +31,19 @@ class LibIME
     eventer = 'addEventListener'
     eventer = 'on' if jQuery?
 
+    unless _element[eventer]?
+      throw new Error 'invalid object or expr passed, must be jQuery/Raw DOM object'
+
     _element[eventer] 'keydown', (event) =>
       _directinput = no
       _num_press = 0
       _num_up = 0
-      return @onkeydown event
+      return @onkeydown arguments
 
     _element[eventer] 'keypress', (event) =>
       _directinput = yes
       _num_press += 1
-      return @onkeypress event
+      return @onkeypress arguments
 
     _element[eventer] 'keyup', (event) =>
       _num_up += 1
@@ -53,4 +56,4 @@ class LibIME
           @status = 2
       else
         @status = 2
-      return @onkeyup event
+      return @onkeyup arguments
